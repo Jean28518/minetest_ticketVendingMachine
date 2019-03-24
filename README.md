@@ -13,10 +13,9 @@ Whith the function `ticket_vending_machine_check_ticket(player)` you can also ch
 
 The Information about a valid ticket is stored in the players meta.
 
-----
+## Screenshots:
 
 ![Pic1](pic1.png)
 
 
 ![Pic1](pic2.png)
-# minetest_ticketVendingMachine
