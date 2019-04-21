@@ -30,9 +30,6 @@ minetest.register_node("ticket_vending_machine:machine", {
 })
 
 ticket_vending_machine_show_spec = function (player)
-  if atm.balance[player:get_player_name()] == nil then
-    atm.balance[player:get_player_name()] = 0
-  end
   local pmeta = player:get_meta()
   local string_expiring = "           You currently have no ticket."
   if pmeta:get_int("ticket_vending_machine:elapsed_time") - minetest.get_gametime() > 0 then
@@ -54,8 +51,7 @@ minetest.register_on_player_receive_fields(function(customer, formname, fields)
 	if formname == "ticket_vending_machine:machine" and fields.button1 ~= nil and fields.button1 ~= "" then
     local pmeta = customer:get_meta()
     if pmeta:get_int("ticket_vending_machine:elapsed_time") - minetest.get_gametime() < 0 then
-      if atm.balance[customer:get_player_name()] >= BUTTON1_PRICE then
-        atm.balance[customer:get_player_name()] = atm.balance[customer:get_player_name()] - BUTTON1_PRICE
+      if jeans_economy_book(customer:get_player_name(), "!SERVER!", BUTTON1_PRICE, customer:get_player_name().." has buyed a ticket for "..BUTTON1_TEXT..".") then
         pmeta:set_int("ticket_vending_machine:elapsed_time", minetest.get_gametime() + BUTTON1_SECONDS)
         ticket_vending_machine_show_spec(customer)
       else
@@ -69,8 +65,7 @@ minetest.register_on_player_receive_fields(function(customer, formname, fields)
 	if formname == "ticket_vending_machine:machine" and fields.button2 ~= nil and fields.button2 ~= "" then
     local pmeta = customer:get_meta()
     if pmeta:get_int("ticket_vending_machine:elapsed_time") - minetest.get_gametime() < 0 then
-      if atm.balance[customer:get_player_name()] >= BUTTON2_PRICE then
-        atm.balance[customer:get_player_name()] = atm.balance[customer:get_player_name()] - BUTTON2_PRICE
+      if jeans_economy_book(customer:get_player_name(), "!SERVER!", BUTTON2_PRICE, customer:get_player_name().." has buyed a ticket for "..BUTTON2_TEXT..".") then
         pmeta:set_int("ticket_vending_machine:elapsed_time", minetest.get_gametime() + BUTTON2_SECONDS)
         ticket_vending_machine_show_spec(customer)
       else
@@ -80,7 +75,7 @@ minetest.register_on_player_receive_fields(function(customer, formname, fields)
   end
 end)
 
-ticket_vending_machine_check_ticket = function(player)
+function ticket_vending_machine_check_ticket(player)
   if not (minetest.player_exists(player:get_player_name()) and minetest.get_player_information(player:get_player_name()) ~= nil) then
     return nil
   end
