@@ -1,5 +1,5 @@
 # Minetest Mod: TicketVendingMachine
-This mod depends on the atm mod: https://forum.minetest.net/viewtopic.php?f=9&t=15029
+This mod depends on the mod Jean's Economy: https://github.com/Jean28518/jeans_economy
 
 ## How does it work?
 In Creative Mode you could place some Ticket Vending Machines.
